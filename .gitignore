@@ -1,0 +1,5 @@
+*.o
+*.O
+compile_commands.json
+compile_flags.txt
+stars
