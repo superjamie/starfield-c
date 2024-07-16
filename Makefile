@@ -1,23 +1,25 @@
-CFLAGS  = -fanalyzer -fno-omit-frame-pointer -g3 -std=c11 -O3
+CFLAGS  = -fanalyzer -fno-omit-frame-pointer -g3 -std=c11 -O0
 CFLAGS += -Wall -Wextra -Wpedantic -Wmissing-prototypes -Werror=vla
 CFLAGS += $(shell pkg-config --cflags sdl2)
 LDLIBS  = -lm
 LDLIBS += $(shell pkg-config --libs sdl2)
 
 EXEC    = stars
-SRCS    = stars.c
-OBJS    = stars.o
+SOURCES = $(wildcard *.c)
+OBJECTS = $(SOURCES:.c=.o)
+HEADERS = display.h
 
-$(EXEC): $(OBJS)
-	$(CC) -o $@ $^ $(LDLIBS)
+$(EXEC): $(OBJECTS)
+	$(CC) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) -o $(EXEC)
 
-%.o: %.c
-	$(CC) -c -o $@ $^ $(CFLAGS)
+#%.o: %.c $(HEADERS)
+#	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
 .PHONY: clean check
 
 clean:
-	rm -f $(OBJS) $(EXEC)
+	rm -f $(OBJECTS) $(EXEC)
 
-check: $(SRCS)
+check: $(SOURCES) $(HEADERS)
 	cppcheck --enable=all --std=c11 --suppress=missingInclude $^
+
