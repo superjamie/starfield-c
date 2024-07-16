@@ -86,6 +86,12 @@ void display_stop(void)
 
 	SDL_QuitSubSystem(SDL_INIT_VIDEO|SDL_INIT_TIMER);
 	SDL_Quit();
+
+	if (ctx->pixel_buffer)
+		free (ctx->pixel_buffer);
+
+	if (ctx)
+		free(ctx);
 }
 
 size_t display_get_width(void)
@@ -129,4 +135,9 @@ void display_flush(void)
 			  ctx->pixel_buffer_pitch);
 	SDL_RenderCopy(ctx->ren, ctx->tex, NULL, NULL);
 	SDL_RenderPresent(ctx->ren);
+}
+
+void display_sleep(size_t ms)
+{
+	SDL_Delay(ms);
 }

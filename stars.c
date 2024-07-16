@@ -3,7 +3,6 @@
 #include <math.h>     // atan
 #include <stdbool.h>
 #include <stdlib.h>   // rand
-#include <time.h>     // nanosleep
 
 #include "SDL.h"
 
@@ -158,19 +157,13 @@ int main(void)
 	midpoint_x = display_get_width() / 2;
 	midpoint_y = display_get_height() / 2;
 
-	// 30FPS
-	const struct timespec sleep_time = {
-		.tv_sec = 0,
-		.tv_nsec = (30 * 1000 * 1000)
-	};
-
 	while (true) {
 		if (display_check_quit() == true)
 			break;
 
 		do_effect(world);
 		display_flush();
-		nanosleep(&sleep_time, NULL);
+		display_sleep(SPEED);
 	}
 
 	destroy_world(world);

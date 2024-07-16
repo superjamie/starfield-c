@@ -20,5 +20,6 @@ size_t display_get_height(void);
 bool display_check_quit(void);
 void display_draw_pixel(size_t x, size_t y, enum brightness b);
 void display_flush(void);
+void display_sleep(size_t ms);
 
 #endif /* STARS_DISPLAY */
