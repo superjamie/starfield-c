@@ -4,8 +4,6 @@
 #include <stdbool.h>
 #include <stdlib.h>   // rand
 
-#include "SDL.h"
-
 #include "display.h"
 
 /* macros */
@@ -97,10 +95,17 @@ static void destroy_world(struct world_s *world)
 
 static void do_effect(struct world_s *world)
 {
-	// clear the screen
-	for (size_t x = 0; x < display_get_width(); x++)
-		for (size_t y = 0; y < display_get_height(); y++)
-			display_draw_pixel(x, y, OFF);
+	// undraw existing stars
+	for (size_t i = 0; i < world->nstars; i++) {
+		struct star_s *star = &world->star[i];
+
+		enum brightness b = OFF;
+
+		int px = ((star->x / (star->z * half_FOV)) * midpoint_x) + midpoint_x;
+		int py = ((star->y / (star->z * half_FOV)) * midpoint_y) + midpoint_y;
+
+		display_draw_pixel(px, py, b);
+	}
 
 	// move stars along z axis, reset if they reach 0
 	for (size_t i = 0; i < world->nstars; ++i) {

@@ -1,10 +1,9 @@
-CFLAGS  = -fanalyzer -fno-omit-frame-pointer -g3 -std=c11 -O0
+CC      = gcc
+CFLAGS  = -fgnu89-inline -fno-omit-frame-pointer -g3 -std=c11 -O0
 CFLAGS += -Wall -Wextra -Wpedantic -Wmissing-prototypes -Werror=vla
-CFLAGS += $(shell pkg-config --cflags sdl2)
-LDLIBS  = -lm
-LDLIBS += $(shell pkg-config --libs sdl2)
+LDLIBS  = -lm -lalleg
 
-EXEC    = stars
+EXEC    = stars.exe
 SOURCES = $(wildcard *.c)
 OBJECTS = $(SOURCES:.c=.o)
 HEADERS = display.h
